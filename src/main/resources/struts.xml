@@ -12,21 +12,43 @@
     <package name="crusty" extends="struts-default">
 
         <global-results>
-            <result name="login">/login.jsp</result>
+            <result name="login" type="redirect">login</result>
         </global-results>
 
         <action name="index">
             <result type="redirect">help</result>
         </action>
+        <action name="help" class="com.walterj.crusty.action.HelpAction">
+            <param name="contentSnippetJsp">showHelp</param>
+            <result name="success">/contentWrapper.jsp</result>
+        </action>
+
+        <action name="login" class="com.walterj.crusty.action.DefaultAction">
+            <param name="checkLogin">false</param>
+            <param name="contentSnippetJsp">loginForm</param>
+            <result name="success">/contentWrapper.jsp</result>
+            <result name="error">login</result>
+        </action>
 
         <action name="verifyLogin" class="com.walterj.crusty.action.LoginAction">
             <param name="checkLogin">false</param>
-            <result name="success">/index</result>
-            <result name="error">/login</result>
+            <param name="contentSnippetJsp">index</param>
+            <result name="success" type="redirect">/contentWrapper.jsp</result>
+            <result name="error">login</result>
         </action>
 
-        <action name="help" class="com.walterj.crusty.action.HelpAction">
-            <result name="success">/help.jsp</result>
+
+        <action name="listAccounts" class="com.walterj.crusty.action.ListAccountsAction">
+            <param name="contentSnippetJsp">accounts</param>
+            <result name="success">/contentWrapper.jsp</result>
         </action>
+        <action name="editAccount" class="com.walterj.crusty.action.EditAccountAction">
+            <param name="contentSnippetJsp">accountForm</param>
+            <result name="success">/contentWrapper.jsp</result>
+        </action>
+        <action name="saveAccount" class="com.walterj.crusty.action.SaveAccountAction">
+            <result name="success" type="redirect">listAccounts</result>
+        </action>
+
     </package>
 </struts>

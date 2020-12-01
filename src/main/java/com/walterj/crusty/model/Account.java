@@ -25,6 +25,11 @@ public class Account extends IdentifiableEntityImpl {
     private Timestamp lastLogin;
 
     public Account() {
+
+        Timestamp t = new Timestamp(System.currentTimeMillis());
+        created = t;
+        lastLogin = t;
+        active = true;
     }
 
     @Type(type = "yes_no")

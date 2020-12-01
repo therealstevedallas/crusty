@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link rel="stylesheet" type="text/css" href="layout.css">
+    <link rel="stylesheet" type="text/css" href="table.css">
     <link rel="stylesheet" type="text/css" href="jquery-ui.min.css">
 
     <script src="jquery-3.4.1.min.js"></script>

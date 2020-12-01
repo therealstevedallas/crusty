@@ -1,8 +1,6 @@
 package com.walterj.crusty.action;
 
 import com.opensymphony.xwork2.ActionSupport;
-import com.walterj.util.Version;
-import com.walterj.util.VersionTool;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
@@ -13,8 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 import java.sql.Connection;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -31,6 +27,7 @@ public abstract class BaseAction
             BaseAction.class.getName());
 
     private boolean checkLogin = true;
+    private String contentSnippetJsp;
 
     public boolean isCheckLogin() {
         return checkLogin;
@@ -38,6 +35,14 @@ public abstract class BaseAction
 
     public void setCheckLogin(boolean checkLogin) {
         this.checkLogin = checkLogin;
+    }
+
+    public String getContentSnippetJsp() {
+        return contentSnippetJsp;
+    }
+
+    public void setContentSnippetJsp(String contentSnippetJsp) {
+        this.contentSnippetJsp = contentSnippetJsp;
     }
 
     /**
