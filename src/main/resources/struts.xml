@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+        "http://struts.apache.org/dtds/struts-2.5.dtd">
+
+<struts>
+    <constant name="struts.devMode" value="true"/>
+    <constant name="struts.mapper.action.prefix.enabled" value="true"/>
+    <constant name="struts.ui.theme" value="simple" />
+    <constant name="struts.multipart.maxSize" value="999999999999" />
+
+    <package name="crusty" extends="struts-default">
+
+        <global-results>
+            <result name="login">/login.jsp</result>
+        </global-results>
+
+        <action name="index">
+            <result type="redirect">help</result>
+        </action>
+
+        <action name="verifyLogin" class="com.walterj.crusty.action.LoginAction">
+            <param name="checkLogin">false</param>
+            <result name="success">/index</result>
+            <result name="error">/login</result>
+        </action>
+
+        <action name="help" class="com.walterj.crusty.action.HelpAction">
+            <result name="success">/help.jsp</result>
+        </action>
+    </package>
+</struts>
