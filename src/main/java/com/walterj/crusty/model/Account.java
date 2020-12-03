@@ -1,5 +1,6 @@
 package com.walterj.crusty.model;
 
+import com.opensymphony.xwork2.validator.annotations.EmailValidator;
 import com.walterj.crusty.dao.impl.IdentifiableEntityImpl;
 import org.hibernate.annotations.Type;
 import javax.persistence.Column;
@@ -23,12 +24,28 @@ public class Account extends IdentifiableEntityImpl {
     private String firstName;
     private Timestamp created;
     private Timestamp lastLogin;
+    private String email;
+    private String mobile;
+
+    @Column(name = "email_address")
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    @Column(name = "mobile_phone")
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
 
     public Account() {
-
-        Timestamp t = new Timestamp(System.currentTimeMillis());
-        created = t;
-        lastLogin = t;
         active = true;
     }
 
@@ -58,7 +75,7 @@ public class Account extends IdentifiableEntityImpl {
         this.lastName = lastName;
     }
 
-    @Column(name = "created", nullable = false)
+    @Column(name = "created", nullable = true, insertable = false, updatable = false)
     public Timestamp getCreated() {
         return created;
     }
@@ -67,7 +84,7 @@ public class Account extends IdentifiableEntityImpl {
         this.created = created;
     }
 
-    @Column(name = "last_login", nullable = false)
+    @Column(name = "last_login", nullable = true, insertable = false)
     public Timestamp getLastLogin() {
         return lastLogin;
     }

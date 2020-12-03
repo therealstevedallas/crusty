@@ -17,7 +17,7 @@ html, body {
 .header {
   overflow: hidden;
   color: white;
-  text-align: left;
+  text-align: right;
   padding-left: 50px;
   background-color: #2e97dd;
   border-bottom: 2px solid orange;
@@ -28,6 +28,10 @@ html, body {
   top:0;
   right:0;
   float: right;
+}
+
+.header div {
+
 }
 
 .footer {
@@ -129,7 +133,7 @@ html, body {
 .card {
   padding: 16px;
   text-align: center;
-  width: 340px;
+  width: auto;
   position: absolute;
   left: 50%;
   top: 50%;

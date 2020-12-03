@@ -1,6 +1,9 @@
 package com.walterj.crusty.action;
 
 import com.opensymphony.xwork2.ActionSupport;
+import com.walterj.crusty.model.Account;
+import com.walterj.util.web.ResourceLoadListener;
+import com.walterj.util.web.Strings;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
@@ -53,9 +56,27 @@ public abstract class BaseAction
             throws Exception {
 
         String rVal;
-        final HttpSession session = ServletActionContext.getRequest().getSession(true);
-        final Object attribute = session.getAttribute(Constants.SESSION_KEY_ACCOUNT);
-        if (checkLogin && attribute == null) {
+        final HttpServletRequest request = ServletActionContext.getRequest();
+        final HttpSession session = request.getSession(true);
+        final Object o = session.getServletContext().getAttribute(ResourceLoadListener.STRING_RESOURCES);
+        if (o != null) {
+
+            try {
+                Strings strings = new Strings((Map<String,String>)o, request.getLocale());
+                request.setAttribute(Constants.STRINGS, strings);
+            }
+            catch (Strings.UnsupportedLanguageException e) {
+                LOG.error("execute(): " + e.getMessage(), e);
+                addActionError("No i18n support is configured for: " + request.getLocale());
+                return ERROR;
+            }
+        }
+        else {
+            LOG.warn("execute(): There is no STRINGS capability set in the context.");
+        }
+
+        final Account account = getCurrentLogin();
+        if (isCheckLogin() && account == null) {
             LOG.debug("execute(): No active account is logged in, forwarding to Login page.");
             rVal = LOGIN;
         }
@@ -69,6 +90,23 @@ public abstract class BaseAction
             }
         }
         return rVal;
+    }
+
+    // helper for children
+    protected static final Strings getMessages(HttpServletRequest req) {
+        return (Strings)req.getAttribute(Constants.STRINGS);
+    }
+
+    protected Account getCurrentLogin() {
+        Account rVal = null;
+        HttpSession session = ServletActionContext.getRequest().getSession(true);
+       if (session != null) {
+           final Object o = session.getAttribute(Constants.SESSION_KEY_CURRENT_LOGIN);
+           if (o instanceof Account) {
+               rVal = (Account)o;
+           }
+       }
+       return rVal;
     }
 
     public abstract String perform(HttpSession session, HttpServletRequest request);

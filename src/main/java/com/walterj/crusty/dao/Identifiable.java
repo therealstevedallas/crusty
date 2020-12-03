@@ -5,5 +5,7 @@ package com.walterj.crusty.dao;
  */
 public interface Identifiable {
 
+    static final long NEW_ID = -1L;
+
     long getId();
 }

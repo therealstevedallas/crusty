@@ -1,0 +1,20 @@
+<%@ taglib prefix="s" uri="/struts-tags" %>
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<div class="row">
+<div class="column">
+<div class='card'>
+<h3>Provide Credentials</h3>
+<s:form name="loginForm" theme="xhtml" >
+      <s:textfield name="accountForm.name" label="${strings.get('account.name')}"  cssClass="input" ></s:textfield>
+      <s:password name="accountForm.password" label="${strings.get('account.password')}"   cssClass="input" ></s:password>
+      <s:textfield name="accountForm.firstName" label="${strings.get('account.name.first')}"   cssClass="input" ></s:textfield>
+      <s:textfield name="accountForm.lastName" label="${strings.get('account.name.last')}"   cssClass="input" ></s:textfield>
+      <s:textfield name="accountForm.email" label="${strings.get('account.email')}"   cssClass="input" ></s:textfield>
+      <s:textfield name="accountForm.mobile" label="${strings.get('account.mobile')}"   cssClass="input" ></s:textfield>
+      <s:checkbox name="accountForm.active" label="${strings.get('account.active')}"   cssClass="input" ></s:checkbox>
+      <s:hidden name="accountForm.id"></s:hidden>
+      <s:submit action="saveAccount" value="Save"></s:submit>
+</s:form>
+</div>
+</div>
+</div>

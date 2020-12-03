@@ -16,27 +16,36 @@
         </global-results>
 
         <action name="index">
-            <result type="redirect">help</result>
+            <result type="redirect">about</result>
         </action>
-        <action name="help" class="com.walterj.crusty.action.HelpAction">
-            <param name="contentSnippetJsp">showHelp</param>
+        <action name="about" class="com.walterj.crusty.action.HelpAction">
+            <param name="contentSnippetJsp">about</param>
             <result name="success">/contentWrapper.jsp</result>
         </action>
 
         <action name="login" class="com.walterj.crusty.action.DefaultAction">
             <param name="checkLogin">false</param>
             <param name="contentSnippetJsp">loginForm</param>
+            <result name="success">/loginWrapper.jsp</result>
+            <result name="error">/login</result>
+        </action>
+
+        <action name="logout" class="com.walterj.crusty.action.DefaultAction">
+            <result name="success">/login</result>
+        </action>
+
+        <action name="home" class="com.walterj.crusty.action.DefaultAction">
+            <param name="contentSnippetJsp">index</param>
             <result name="success">/contentWrapper.jsp</result>
-            <result name="error">login</result>
         </action>
 
         <action name="verifyLogin" class="com.walterj.crusty.action.LoginAction">
             <param name="checkLogin">false</param>
-            <param name="contentSnippetJsp">index</param>
-            <result name="success" type="redirect">/contentWrapper.jsp</result>
+            <param name="contentSnippetJsp">login</param>
             <result name="error">login</result>
+            <result name="input">login</result>
+            <result name="success" type="redirectAction">listAccounts</result>
         </action>
-
 
         <action name="listAccounts" class="com.walterj.crusty.action.ListAccountsAction">
             <param name="contentSnippetJsp">accounts</param>
@@ -47,8 +56,13 @@
             <result name="success">/contentWrapper.jsp</result>
         </action>
         <action name="saveAccount" class="com.walterj.crusty.action.SaveAccountAction">
-            <result name="success" type="redirect">listAccounts</result>
+            <param name="contentSnippetJsp">accountForm</param>
+            <result name="input">/contentWrapper.jsp</result>
+            <result name="success" type="redirectAction">listAccounts</result>
         </action>
-
+        <action name="deleteAccount" class="com.walterj.crusty.action.DeleteAccountAction">
+            <result name="success" type="redirect">listAccounts</result>
+            <result name="error">listAccounts</result>
+        </action>
     </package>
 </struts>

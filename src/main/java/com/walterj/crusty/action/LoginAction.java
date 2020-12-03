@@ -5,13 +5,10 @@ import com.walterj.crusty.model.Account;
 import com.walterj.util.Crypt;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.struts2.interceptor.SessionAware;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.swing.text.html.parser.Entity;
 import java.sql.Timestamp;
-import java.util.Map;
 
 /**
  * Carries login information during verify and login
@@ -51,7 +48,7 @@ public class LoginAction extends BaseAction {
             LOG.warn("perform(): No form present!");
             return ERROR;
         }
-        session.removeAttribute(Constants.SESSION_KEY_ACCOUNT);
+        session.removeAttribute(Constants.SESSION_KEY_CURRENT_LOGIN);
         Account a = new Account();
         a.setName(loginForm.getAccount());
         LOG.debug("perform(): looking for account [" + a.getName() + "]");
@@ -61,7 +58,7 @@ public class LoginAction extends BaseAction {
         if (a != null) {
             LOG.debug("perform(): Account [" + a + "] found, checking credentials.");
             if (Crypt.compare(loginForm.getPassword(), a.getPassword())) {
-                session.setAttribute(Constants.SESSION_KEY_ACCOUNT, a);
+                session.setAttribute(Constants.SESSION_KEY_CURRENT_LOGIN, a);
                 a.setLastLogin(new Timestamp(System.currentTimeMillis()));
                 dao.update(a);
                 rVal = SUCCESS;

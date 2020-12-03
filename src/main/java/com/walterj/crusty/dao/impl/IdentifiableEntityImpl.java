@@ -16,7 +16,7 @@ import java.io.Serializable;
 public abstract class IdentifiableEntityImpl
     implements IdentifiableEntity, Serializable {
 
-    private long id = -1L;
+    private long id = NEW_ID;
     private String name;
     private String description;
 

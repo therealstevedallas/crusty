@@ -3,5 +3,5 @@
 <c:set var="pg" value="loginForm"/>
 <jsp:include page="mainLayout.jsp">
     <jsp:param name="pg" value="${pg}"/>
-    <jsp:param name="title" value="${title}"/>
+    <jsp:param name="title" value="${strings.get('login.title')}"/>
 </jsp:include>
