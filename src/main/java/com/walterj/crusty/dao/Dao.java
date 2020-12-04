@@ -34,6 +34,16 @@ public interface Dao<T extends Identifiable> {
     List<T> list(Class<T> t);
 
     /**
+     * All entities of the type
+     * @param t the type
+     * @param limit The number of rows to return
+     * @param offset The number of rows from the start of the result to
+     *               begin returning values
+     * @return a list of zero or more elements
+     */
+    List<T> list(Class<T> t, int limit, int offset);
+
+    /**
      * Deletes and entity
      * @param t the instance of {@link Identifiable}
      */
@@ -52,4 +62,9 @@ public interface Dao<T extends Identifiable> {
      * @return true if it exists
      */
     boolean exists(T t);
+
+    /**
+     * @return The number of T currently stored
+     */
+    long count(Class<T> t);
 }

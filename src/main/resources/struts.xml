@@ -31,7 +31,7 @@
         </action>
 
         <action name="logout" class="com.walterj.crusty.action.DefaultAction">
-            <result name="success">/login</result>
+            <result name="success" type="redirectAction">login</result>
         </action>
 
         <action name="home" class="com.walterj.crusty.action.DefaultAction">
@@ -42,8 +42,8 @@
         <action name="verifyLogin" class="com.walterj.crusty.action.LoginAction">
             <param name="checkLogin">false</param>
             <param name="contentSnippetJsp">login</param>
-            <result name="error">login</result>
-            <result name="input">login</result>
+            <result name="error">/contentWrapper.jsp</result>
+            <result name="input">/contentWrapper.jsp</result>
             <result name="success" type="redirectAction">listAccounts</result>
         </action>
 
@@ -61,8 +61,10 @@
             <result name="success" type="redirectAction">listAccounts</result>
         </action>
         <action name="deleteAccount" class="com.walterj.crusty.action.DeleteAccountAction">
+            <param name="contentSnippetJsp">accounts</param>
+            <result name="error">/contentWrapper.jsp</result>
+            <result name="input">/contentWrapper.jsp</result>
             <result name="success" type="redirect">listAccounts</result>
-            <result name="error">listAccounts</result>
         </action>
     </package>
 </struts>

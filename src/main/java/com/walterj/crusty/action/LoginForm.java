@@ -11,7 +11,6 @@ public class LoginForm {
     private String account;
     private String password;
 
-
     public String getAccount() {
         return account;
     }

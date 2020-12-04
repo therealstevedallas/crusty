@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 import java.sql.Connection;
+import java.util.Enumeration;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -126,17 +128,27 @@ public abstract class BaseAction
     }
     
     void logRequestParams() {
-        
-        Map vars = ServletActionContext.getRequest().getParameterMap();
+
+        final HttpServletRequest req = ServletActionContext.getRequest();
+        final Map<String,String[]> vars = req.getParameterMap();
         StringBuilder sb = new StringBuilder("Request Params:");
         for (Object key : vars.keySet()) {
-            
             Object v = vars.get(key);
             sb.append('\n').append(key).append(" = ").append(v);
         }
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("logRequestParams(): " + sb.toString());
+        sb.append("\nRequest Attributes:");
+        Enumeration<String> attrs = req.getAttributeNames();
+        while(attrs.hasMoreElements()) {
+            String key = attrs.nextElement();
+            sb.append('\n').append(key).append(" = ").append(""+req.getAttribute(key));
         }
-        
+        sb.append("\nSession Attributes:");
+        attrs = req.getSession().getAttributeNames();
+        while(attrs.hasMoreElements()) {
+            String key = attrs.nextElement();
+            sb.append('\n').append(key).append(" = ").append(""+req.getAttribute(key));
+        }
+        LOG.debug("logRequestParams(): " + sb.toString());
+
     }
 }

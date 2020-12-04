@@ -12,8 +12,8 @@ import org.hibernate.Session;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Selection;
 import java.util.List;
-import java.util.logging.Level;
 
 /**
  * @author Walter Jordan
@@ -102,6 +102,32 @@ public class EntityDaoImpl<T extends IdentifiableEntity> implements Dao<T> {
         List<T> data = s.createQuery(criteria).getResultList();
         s.close();
         return data;
+    }
+
+    @Override
+    public List<T> list(Class<T> type, int limit, int offset) {
+
+        LOG.debug("list(): Called for " + type.getName());
+        Session s = HibernateUtil.openSession();
+        CriteriaBuilder builder = s.getCriteriaBuilder();
+        CriteriaQuery<T> criteria = builder.createQuery(type);
+        criteria.from(type);
+        List<T> data = s.createQuery(criteria)
+            .setFirstResult(offset)
+            .setMaxResults(limit)
+            .getResultList();
+        s.close();
+        return data;
+    }
+
+    @Override
+    public long count(Class<T> type) {
+        LOG.debug("count(): Called for " + type.getName());
+        Session s = HibernateUtil.openSession();
+        CriteriaBuilder builder = s.getCriteriaBuilder();
+        CriteriaQuery<Long> criteria = builder.createQuery(Long.class);
+        criteria.select(builder.count((criteria.from(type))));
+        return s.createQuery(criteria).getSingleResult();
     }
 
     @Override
