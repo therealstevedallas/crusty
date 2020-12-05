@@ -1,5 +1,7 @@
 package com.walterj.util.web;
 
+import com.walterj.util.Range;
+
 import java.util.List;
 
 /**
@@ -53,7 +55,14 @@ public class TablePager<T> {
     }
 
     public int getTotalPages() {
-        return (int)totalRows/rowsPerPage;
+        return rowsPerPage > 0 ? (int)totalRows/rowsPerPage : -1;
+    }
+
+    public Range<Integer> getRowRange() {
+
+        int lo = (currentPage*rowsPerPage);
+        int hi = (lo + rowsPerPage <= totalRows) ? lo + rowsPerPage : (int)totalRows;
+        return new Range<>(lo+1, hi);
     }
 
     @Override public String toString() {

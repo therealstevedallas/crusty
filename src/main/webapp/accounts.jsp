@@ -42,7 +42,12 @@
 <tfoot>
 <tr>
 <td colspan="8">
-<div class="row-count">${strings.get('table.count')}: ${accountPager.getTotalRows()}</div>
+<div class="row-count">
+    ${ParamUtil.formatMessage(strings.get('format.message.table.contents'),
+                              accountPager.rowRange.lo,
+                              accountPager.rowRange.hi,
+                              accountPager.totalRows)}
+</div>
 <div id="links" class="links">
  <a id="page-back" href="#">&laquo;</a>
  <c:forEach var = "i" begin = "0" end = "${accountPager.getTotalPages()}">
@@ -110,6 +115,7 @@ $(document).ready(function() {
 	    $('#tablePager').submit();
 	});
 	$('#_rowsPerPage').change(function() {
+	    $('#_currentPage').val(0);
         $('#tablePager').submit();
     });
 });
