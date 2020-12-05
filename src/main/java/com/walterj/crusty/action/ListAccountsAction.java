@@ -17,15 +17,17 @@ import java.util.List;
  */
 public class ListAccountsAction extends BaseAction {
 
-    int currentPage = 0;
-    int rowsPerPage = 5;
-
     private static final Logger LOG = LogManager.getLogger(ListAccountsAction.class.getName());
+    private static final int DEFAULT_ROWS_PER_PAGE = 10;
+
+    int currentPage;
+    int rowsPerPage = DEFAULT_ROWS_PER_PAGE;
+
     @Override public String perform(HttpSession session, HttpServletRequest request) {
 
         Dao<Account> dao = new EntityDaoImpl<>();
         long rows = dao.count(Account.class);
-        TablePager<Account> pager = new TablePager<>(getRowsPerPage(),rows);
+        TablePager<Account> pager = new TablePager<>(getRowsPerPage(), rows);
         pager.setCurrentPage(getCurrentPage());
         List<Account> items = dao.list(Account.class, pager.getRowsPerPage(), pager.getRowOffset());
         pager.setRows(items);

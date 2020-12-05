@@ -5,6 +5,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author Walter Jordan
@@ -40,4 +46,17 @@ public class ParamUtil {
         return rVal;
     }
 
+    // cache them so we aren't killing ourselves to have multiple users in different
+    // locales writing out tables with 3 date fields in them
+    private static final Map<String, DateFormat> formats = new ConcurrentHashMap<>();
+
+    public static String formatTimestamp(Timestamp ts, String format) {
+
+        DateFormat fmt = formats.get(format);
+        if (fmt == null) {
+            fmt = new SimpleDateFormat(format);
+            formats.put(format,fmt);
+        }
+        return fmt.format(ts);
+    }
 }

@@ -1,12 +1,32 @@
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
-<h3>${strings.get('accounts.title')}</h3>
+<%@ page import="com.walterj.util.web.ParamUtil" %>
 <div class="row">
 <div class="column">
 <div class="card">
 
+<form id="tablePager" name="pagerForm" action="/crusty/listAccounts.action" method="post">
 <table class="data-table">
 <thead>
+  <tr>
+    <th colspan="8">
+      <h3>${strings.get('accounts.title')}</h3>
+    </th>
+  </tr>
+<tr>
+<th>
+<label for="_rowsPerPage">${strings.get('table.rows.per.page')}</label>
+</th>
+<th>
+  <select name="rowsPerPage" value="${accountPager.rowsPerPage}" id="_rowsPerPage">
+   <option>5</option>
+   <option>10</option>
+   <option>20</option>
+   <option>50</option>
+  </select>
+</th>
+<th colspan="6"><div class="right"><a href='/crusty/editAccount?accountForm.id=-1'><img src='/crusty/images/ic_add.png'/></a></div></th>
+</tr>
 <tr>
   <th>${strings.get('accounts.header.name')}</th>
   <th>${strings.get('accounts.header.name.last')}</th>
@@ -15,8 +35,7 @@
   <th>${strings.get('accounts.header.mobile')}</th>
   <th>${strings.get('accounts.header.login')}</th>
   <th>${strings.get('accounts.header.active')}</th>
-  <th>${strings.get('table.controls')} <a href='/crusty/editAccount?accountForm.id=-1'>
-                                          <img src='/crusty/images/ic_add.png'/></a>
+  <th>${strings.get('table.controls')}
   </th>
 </tr>
 </thead>
@@ -49,7 +68,7 @@
 <td><c:out value="${account.firstName}" /></td>
 <td><c:out value="${account.email}" /></td>
 <td><c:out value="${account.mobile}" /></td>
-<td><c:out value="${account.lastLogin}" /></td>
+<td><c:out value="${ParamUtil.formatTimestamp(account.lastLogin, 'YYYY-MM-dd hh:mm:ss aa')}" /></td>
 <td><c:out value="${account.active}" /></td>
 <td>
   <a href='/crusty/editAccount?accountForm.id=${account.id}'><img src='/crusty/images/ic_edit.png'/></a>
@@ -62,12 +81,13 @@
 </div>
 </div>
 </div>
-<form id="tablePager" name="pagerForm" action="/crusty/listAccounts.action" method="post">
     <input type="hidden" name="currentPage" value="${accountPager.currentPage}" id="_currentPage"/>
-    <input type="hidden" name="rowsPerPage" value="${accountPager.rowsPerPage}" id="_rowPerPage"/>
 </form>
 <script>
 $(document).ready(function() {
+
+    $("#_rowsPerPage").val(${accountPager.rowsPerPage}).attr('selected', 'selected');
+
 	$('#page-back').click(function() {
 	    var p = ${accountPager.currentPage}
 	    p = p == 0 ? 0 : p - 1;
@@ -89,5 +109,8 @@ $(document).ready(function() {
 	    $('#_currentPage').val(p);
 	    $('#tablePager').submit();
 	});
+	$('#_rowsPerPage').change(function() {
+        $('#tablePager').submit();
+    });
 });
 </script>

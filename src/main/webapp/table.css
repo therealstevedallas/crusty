@@ -1,10 +1,5 @@
-$baseColor: #398B93;
-$borderRadius: 10px;
-$imageBig: 100px;
-$imageSmall: 60px;
-$padding: 10px;
-
 table.data-table {
+  font: arial, sans-serif
   border: 1px solid #1C6EA4;
   background-color: #EEEEEE;
   width: 100%;
@@ -12,12 +7,13 @@ table.data-table {
   border-collapse: collapse;
 }
 table.data-table td, table.data-table th {
-  border: 2px solid #AAAAAA;
-  padding: 3px 2px;
+  border: 1px solid #AAAAAA;
+  padding: 1px 5px 1px 5px;
 }
 table.data-table tbody td {
-  font-size: 13px;
+  font-size: 12px;
 }
+
 table.data-table tr:nth-child(even) {
   background: #D0E4F5;
 }
@@ -28,18 +24,24 @@ table.data-table thead {
   background: linear-gradient(to bottom, #5592bb 0%, #327cad 66%, #1C6EA4 100%);
   border-bottom: 2px solid #444444;
 }
+
+table.data-table .right {
+   text-align: right;
+}
+
 table.data-table thead th {
-  font-size: 15px;
+  font-size: 12px;
   font-weight: bold;
   color: #FFFFFF;
-  border-left: 2px solid #D0E4F5;
+  border-left: 1px solid #D0E4F5;
+  text-align: center;
 }
 table.data-table thead th:first-child {
   border-left: none;
 }
 
 table.data-table tfoot {
-  font-size: 14px;
+  font-size: 12px;
   font-weight: bold;
   color: #FFFFFF;
   background: #D0E4F5;
@@ -49,7 +51,7 @@ table.data-table tfoot {
   border-top: 2px solid #444444;
 }
 table.data-table tfoot td {
-  font-size: 14px;
+  font-size: 12px;
 }
 table.data-table tfoot .links {
   text-align: right;
