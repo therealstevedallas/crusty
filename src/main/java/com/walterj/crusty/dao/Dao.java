@@ -1,5 +1,7 @@
 package com.walterj.crusty.dao;
 
+import com.walterj.crusty.dao.impl.EntityDaoSort;
+
 import java.util.List;
 
 public interface Dao<T extends Identifiable> {
@@ -34,14 +36,15 @@ public interface Dao<T extends Identifiable> {
     List<T> list(Class<T> t);
 
     /**
-     * All entities of the type
-     * @param t the type
-     * @param limit The number of rows to return
-     * @param offset The number of rows from the start of the result to
-     *               begin returning values
-     * @return a list of zero or more elements
+     *
+     * @param type the type
+     * @param limit the number of rows to return. -1 returns all rows.
+     * @param offset the offset from the first row of the result to begin returning rows
+     * @param sorts {@link EntityDaoSort},  can be null
+     * @return zero or more rows of the type requested
      */
-    List<T> list(Class<T> t, int limit, int offset);
+    List<T> list(Class<T> type, int limit, int offset, List<EntityDaoSort> sorts);
+
 
     /**
      * Deletes and entity

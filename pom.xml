@@ -87,8 +87,6 @@
             <artifactId>postgresql</artifactId>
             <version>42.2.18</version>
         </dependency>
-
-
     </dependencies>
     <build>
         <finalName>crusty</finalName>
@@ -141,7 +139,7 @@
                     <version>2.22.1</version>
                     <configuration>
                         <excludes>
-                            <exclude>com.walterj.**</exclude>
+                            <!--exclude>com.walterj.**</exclude-->
                         </excludes>
                     </configuration>
                 </plugin>

@@ -11,11 +11,25 @@ public class TablePager<T> {
     private int rowsPerPage = 10;
     private long totalRows = 0;
     private int currentPage = 0;
+    private int sortBy = -1;
+    private boolean sortAscending = true;
+
+    private List<String> headers;
     private List<T> rows;
 
-    public TablePager(int rowsPerPage, long totalRows) {
+    public TablePager(int rowsPerPage,
+                      long totalRows) {
+        this(rowsPerPage,totalRows, -1, true);
+    }
+
+    public TablePager(int rowsPerPage,
+                      long totalRows,
+                      int sortBy,
+                      boolean asc) {
         this.rowsPerPage = rowsPerPage;
         this.totalRows = totalRows;
+        this.sortBy = sortBy;
+        this.sortAscending = asc;
     }
 
     public int getRowsPerPage() {
@@ -40,6 +54,30 @@ public class TablePager<T> {
 
     public void setTotalRows(int totalRows) {
         this.totalRows = totalRows;
+    }
+
+    public int getSortBy() {
+        return sortBy;
+    }
+
+    public void setSortBy(int sortBy) {
+        this.sortBy = sortBy;
+    }
+
+    public boolean isSortAscending() {
+        return sortAscending;
+    }
+
+    public void setSortAscending(boolean sortAscending) {
+        this.sortAscending = sortAscending;
+    }
+
+    public List<String> getHeaders() {
+        return headers;
+    }
+
+    public void setHeaders(List<String> headers) {
+        this.headers = headers;
     }
 
     public List<T> getRows() {
@@ -71,6 +109,8 @@ public class TablePager<T> {
             "\n  totalRows=" + totalRows +
             "\n  currentPage=" + currentPage +
             "\n  rows=" + ((rows == null) ? "0" : rows.size()) +
+            "\n  sortBy=" + sortBy +
+            "\n  sortAsc=" + sortAscending +
             "\n}";
     }
 }

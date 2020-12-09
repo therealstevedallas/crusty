@@ -9,10 +9,13 @@ import org.apache.logging.log4j.Logger;
 import org.hibernate.IdentifierLoadAccess;
 import org.hibernate.NaturalIdLoadAccess;
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Selection;
+import javax.persistence.criteria.Order;
+import javax.persistence.criteria.Root;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -93,29 +96,38 @@ public class EntityDaoImpl<T extends IdentifiableEntity> implements Dao<T> {
 
     @Override
     public List<T> list(Class<T> type) {
-
         LOG.debug("list(): Called for " + type.getName());
-        Session s = HibernateUtil.openSession();
-        CriteriaBuilder builder = s.getCriteriaBuilder();
-        CriteriaQuery<T> criteria = builder.createQuery(type);
-        criteria.from(type);
-        List<T> data = s.createQuery(criteria).getResultList();
-        s.close();
-        return data;
+        return list(type, -1,0,null );
     }
 
     @Override
-    public List<T> list(Class<T> type, int limit, int offset) {
+    public List<T> list(Class<T> type, int limit, int offset, List<EntityDaoSort> sorts) {
 
         LOG.debug("list(): Called for " + type.getName());
-        Session s = HibernateUtil.openSession();
-        CriteriaBuilder builder = s.getCriteriaBuilder();
-        CriteriaQuery<T> criteria = builder.createQuery(type);
-        criteria.from(type);
-        List<T> data = s.createQuery(criteria)
-            .setFirstResult(offset)
-            .setMaxResults(limit)
-            .getResultList();
+        final Session s = HibernateUtil.openSession();
+        final CriteriaBuilder builder = s.getCriteriaBuilder();
+        final CriteriaQuery<T> criteria = builder.createQuery(type);
+        final Root<T> from = criteria.from(type);
+        if (sorts != null && !sorts.isEmpty()) {
+            List<Order> orderByList = new ArrayList<>();
+            for (EntityDaoSort sort : sorts) {
+                Order order = sort.isAscending()
+                    ? builder.asc(from.get(sort.getName()))
+                    : builder.desc(from.get(sort.getName()));
+                orderByList.add(order);
+            }
+            criteria.orderBy(orderByList);
+        }
+        Query<T> select = s.createQuery(criteria);
+
+        if (limit > -1) {
+            select.setMaxResults(limit);
+        }
+
+        if (offset > 0) {
+            select.setFirstResult(offset);
+        }
+        List<T> data =  select.getResultList();
         s.close();
         return data;
     }
